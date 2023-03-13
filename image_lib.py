@@ -1,8 +1,14 @@
 '''
 Library of useful functions for working with images.
 '''
+
+import ctypes as ct
+
 def main():
     # TODO: Add code to test the functions in this module
+
+    set_desktop_background_image('C:\\Users\\Administrator\\Downloads\\ifgrwgobmbna1.png')
+
     return
 
 def download_image(image_url):
@@ -44,6 +50,9 @@ def set_desktop_background_image(image_path):
         bytes: True, if succcessful. False, if unsuccessful        
     """
     # TODO: Complete function body
+
+    ct.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
+
     return
 
 def scale_image(image_size, max_size=(800, 600)):
