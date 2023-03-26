@@ -3,11 +3,15 @@ Library of useful functions for working with images.
 '''
 
 import ctypes as ct
+import requests as rq
+import os
 
 def main():
     # TODO: Add code to test the functions in this module
 
-    set_desktop_background_image('C:\\Users\\Administrator\\Downloads\\ifgrwgobmbna1.png')
+    image_data = download_image('https://apod.nasa.gov/apod/image/2303/_GHR3094-venerelunafirma800.jpg')
+
+    save_image_file(image_data, 'C://temp//a picture.jpg')
 
     return
 
@@ -23,6 +27,12 @@ def download_image(image_url):
         bytes: Binary image data, if succcessful. None, if unsuccessful.
     """
     # TODO: Complete function body
+
+    resp_msg = rq.get(image_url)
+    
+    if resp_msg.status_code == rq.codes.ok:
+        return resp_msg.content
+
     return
 
 def save_image_file(image_data, image_path):
@@ -38,7 +48,11 @@ def save_image_file(image_data, image_path):
         bytes: True, if succcessful. False, if unsuccessful
     """
     # TODO: Complete function body
-    return
+
+    with open(image_path, 'wb') as file:
+        file.write(image_data)
+
+    return file.name
 
 def set_desktop_background_image(image_path):
     """Sets the desktop background image to a specific image.

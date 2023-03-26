@@ -9,6 +9,10 @@ import re
 def main():
     # TODO: Add code to test the functions in this module
 
+    test = get_apod_info("2023-03-25")
+
+    test_url = get_apod_image_url(test)
+
     return
 
 def get_apod_info(apod_date):
@@ -24,7 +28,7 @@ def get_apod_info(apod_date):
     
     # API request from NASA APOD
     query_params = {
-        "date" : apod_date.isoformat(),
+        "date" : apod_date,
         "api_key" : '0WyzluYR1DMfXlmbJaM4pwlD30MYk4ULWTde6cCh'
     }
 
@@ -47,7 +51,7 @@ def get_apod_image_url(apod_info_dict):
     
     url = apod_info_dict["url"]
     
-    if apod_info_dict["media_type"] == 'picture':
+    if apod_info_dict["media_type"] == 'image':
         url = apod_info_dict["hdurl"]
     
     elif apod_info_dict["media_type"] == 'video':
