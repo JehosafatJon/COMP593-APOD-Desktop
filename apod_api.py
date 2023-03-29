@@ -9,7 +9,7 @@ import re
 def main():
     # TODO: Add code to test the functions in this module
 
-    test = get_apod_info("2023-03-25")
+    test = get_apod_info(dt.today())
 
     test_url = get_apod_image_url(test)
 
@@ -29,7 +29,8 @@ def get_apod_info(apod_date):
     # API request from NASA APOD
     query_params = {
         "date" : apod_date,
-        "api_key" : '0WyzluYR1DMfXlmbJaM4pwlD30MYk4ULWTde6cCh'
+        "api_key" : '0WyzluYR1DMfXlmbJaM4pwlD30MYk4ULWTde6cCh',
+        "thumbs" : True
     }
 
     response = rq.get('https://api.nasa.gov/planetary/apod', query_params)
@@ -49,15 +50,12 @@ def get_apod_image_url(apod_info_dict):
         str: APOD image URL
     """
     
-    url = apod_info_dict["url"]
-    
     if apod_info_dict["media_type"] == 'image':
         url = apod_info_dict["hdurl"]
     
     elif apod_info_dict["media_type"] == 'video':
-        youtube_id = re.match(r".*embed/(.*)\?.*", url).groups()[0]
-        url = f'https://www.youtube.com/vi/{youtube_id}/maxresdefault.jpg'
-    
+        url = apod_info_dict["thumbnail_url"]
+        
     return url
 
 if __name__ == '__main__':

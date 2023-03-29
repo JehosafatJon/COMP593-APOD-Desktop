@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["2000-01-01"]
+            "args": ["2018-08-09"]
         }
     ]
 }
