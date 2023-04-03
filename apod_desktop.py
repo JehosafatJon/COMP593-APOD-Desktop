@@ -61,6 +61,8 @@ def get_apod_date():
     # TODO: Complete function body
     # Update to catch each error message, change the regex. use object.
 
+    apod_date = date.today()
+
     if len(argv) - 1 >= 1:
         apod_date = argv[1]
         
@@ -83,9 +85,7 @@ def get_apod_date():
         elif apod_date > date.today():
             print("Error: APOD date cannot be in the future.")
             exit()
-    
-    else:
-        apod_date = date.today()
+        
 
     return apod_date
 
