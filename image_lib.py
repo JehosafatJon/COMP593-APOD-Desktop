@@ -48,6 +48,8 @@ def save_image_file(image_data, image_path):
     """
     # TODO: Complete function body
 
+    ### TODO: update for True/False... use pastebin_share
+
     with open(image_path, 'wb') as file:
         file.write(image_data)
 
