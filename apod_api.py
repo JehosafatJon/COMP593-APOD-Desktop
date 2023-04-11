@@ -4,14 +4,9 @@ Library for interacting with NASA's Astronomy Picture of the Day API.
 
 import requests as rq
 from datetime import date as dt
-import re
 
 def main():
     # TODO: Add code to test the functions in this module
-
-    test = get_apod_info(dt.today())
-
-    test_url = get_apod_image_url(test)
 
     return
 
@@ -32,10 +27,15 @@ def get_apod_info(apod_date):
         "api_key" : '0WyzluYR1DMfXlmbJaM4pwlD30MYk4ULWTde6cCh',
         "thumbs" : True
     }
-
     response = rq.get('https://api.nasa.gov/planetary/apod', query_params)
 
-    return response.json()
+    print(f"Getting {apod_date} information from NASA ... ", end="")
+    if response.ok:
+        print("Successful.")
+        return response.json()
+    else:
+        print("Unsuccessful.")
+        return
 
 def get_apod_image_url(apod_info_dict):
     """Gets the URL of the APOD image from the dictionary of APOD information.

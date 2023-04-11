@@ -8,10 +8,6 @@ import requests as rq
 def main():
     # TODO: Add code to test the functions in this module
 
-    image_data = download_image('https://apod.nasa.gov/apod/image/2303/_GHR3094-venerelunafirma800.jpg')
-
-    save_image_file(image_data, 'C://temp//a picture.jpg')
-
     return
 
 def download_image(image_url):
@@ -29,9 +25,12 @@ def download_image(image_url):
 
     resp_msg = rq.get(image_url)
     
-    if resp_msg.status_code == rq.codes.ok:
+    print(f"Downloading image from {image_url} ... ", end="")
+    if resp_msg.ok:
+        print("Successful.")
         return resp_msg.content
 
+    print("Unsuccessful.")
     return
 
 def save_image_file(image_data, image_path):
@@ -47,11 +46,12 @@ def save_image_file(image_data, image_path):
         bytes: True, if succcessful. False, if unsuccessful
     """
     # TODO: Complete function body
-
-    with open(image_path, 'wb') as file:
-        file.write(image_data)
-
-    return file.name
+    try:
+        with open(image_path, 'wb') as file:
+            file.write(image_data)
+        return True
+    except:
+        return False
 
 def set_desktop_background_image(image_path):
     """Sets the desktop background image to a specific image.
@@ -63,8 +63,12 @@ def set_desktop_background_image(image_path):
         bytes: True, if succcessful. False, if unsuccessful        
     """
     # TODO: Complete function body
-
-    ct.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
+    print(f"Setting desktop background to {image_path} ... ", end="")
+    try:
+        ct.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
+        print("Successful.")
+    except:
+        print("Unsuccessful.")
 
     return
 
