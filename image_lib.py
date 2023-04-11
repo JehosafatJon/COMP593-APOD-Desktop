@@ -21,7 +21,8 @@ def download_image(image_url):
     Returns:
         bytes: Binary image data, if succcessful. None, if unsuccessful.
     """
-    # TODO: Complete function body
+   
+    # Downloads image using requests package and checks for success
 
     resp_msg = rq.get(image_url)
     
@@ -45,7 +46,9 @@ def save_image_file(image_data, image_path):
     Returns:
         bytes: True, if succcessful. False, if unsuccessful
     """
-    # TODO: Complete function body
+    
+    # Attempts to write image data to file, catches failure
+    
     try:
         with open(image_path, 'wb') as file:
             file.write(image_data)
@@ -62,15 +65,17 @@ def set_desktop_background_image(image_path):
     Returns:
         bytes: True, if succcessful. False, if unsuccessful        
     """
-    # TODO: Complete function body
+    
+    # Attempts to set image to desktop background, catches failure
+    
     print(f"Setting desktop background to {image_path} ... ", end="")
     try:
         ct.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
         print("Successful.")
+        return True
     except:
         print("Unsuccessful.")
-
-    return
+        return False
 
 def scale_image(image_size, max_size=(800, 600)):
     """Calculates the dimensions of an image scaled to a maximum width
