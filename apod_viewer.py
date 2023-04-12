@@ -1,3 +1,24 @@
+""" ~~~ Jonathan Hughes COMP593 ~~~~~~
+               __
+              / _) < that's hot.
+     _.----._/ /
+    /         /
+ __/ (  | (  |
+/__.-'|_|--|_|   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+COMP 593 - Final Project 
+  BONUS: APOD Desktop GUI!
+
+Description: 
+  A cool, fancy and HOT GUI for the
+  NASA APOD Desktop application!
+
+Usage:
+  python apod_viewer.py
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
+
 from tkinter import *
 from tkinter import ttk
 import inspect
@@ -7,6 +28,9 @@ import image_lib
 import ctypes
 from PIL import ImageTk, Image
 from tkcalendar import DateEntry
+from datetime import date
+
+
 
 # Determine the path and parent directory of this script
 script_path = os.path.abspath(inspect.getframeinfo(inspect.currentframe()).filename)
@@ -14,23 +38,6 @@ script_dir = os.path.dirname(script_path)
 
 # Initialize the image cache
 apod_desktop.init_apod_cache(script_dir)
-
-# GUI Init
-root = Tk()
-root.title("Astronomy Picture of the Day Viewer")
-root.rowconfigure(0, weight=70)
-root.rowconfigure(1, weight=20)
-root.rowconfigure(2, weight=10)
-root.columnconfigure(0, weight=100)
-
-# Set Icon
-app_id = 'APODViewer'
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
-root.iconbitmap(os.path.join(script_dir, "NASA Logo.ico"))
-
-# TODO: make resizable
-# TODO: Download Image Button
-# TODO: TkCalendar
 
 # Event Handlers
 
@@ -68,13 +75,39 @@ def handle_set_desktop():
 
 def handle_download_Image():
     date = dentry_dateselect.get_date()
-    
-    apod_desktop.add_apod_to_cache(date)
 
+    if date < date.fromisoformat("1995-06-16"):
+        print("Error: APOD date cannot be before 1995-06-16.")
+        return
+    elif date > date.today():
+        print("Error: APOD date cannot be in the future.")
+        return
+
+    apod_desktop.add_apod_to_cache(date)
+    
     box_imgselect.configure(values=apod_desktop.get_all_apod_titles())
 
     return
 
+def resize(event):
+
+    # TODO: make resizable
+
+    return
+
+
+# GUI Init
+root = Tk()
+root.title("Astronomy Picture of the Day Viewer")
+root.rowconfigure(0, weight=1)
+root.rowconfigure(1, weight=1)
+root.rowconfigure(2, weight=1)
+root.columnconfigure(0, weight=1)
+
+# Set Icon
+app_id = 'APODViewer'
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+root.iconbitmap(os.path.join(script_dir, "NASA Logo.ico"))
 
 # Frames
 frm_top = ttk.Frame(root)
