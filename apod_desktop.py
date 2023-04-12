@@ -227,11 +227,9 @@ def add_apod_to_cache(apod_date):
     print("Successful.")
     
     # Add the APOD information to the DB
-    title = apod_dict["title"]
-    explanation = apod_dict["explanation"]
 
     print("Adding APOD to DB ... ", end="")
-    new_apod_id = add_apod_to_db(title, explanation, img_path, img_hash)    
+    new_apod_id = add_apod_to_db(apod_dict["title"], apod_dict["explanation"], img_path, img_hash)    
     if new_apod_id == 0:
         print("Unsuccesful.")
         return 0
@@ -387,6 +385,7 @@ def get_apod_info(image_id):
 
     cur.execute(info_query)
     info = cur.fetchone()
+    con.close()
 
     # Put information into a dictionary
     
@@ -406,7 +405,19 @@ def get_all_apod_titles():
     """
     # TODO: Complete function body
     # NOTE: This function is only needed to support the APOD viewer GUI
-    return
+    
+    con = sqlite3.connect(image_cache_db)
+    cur = con.cursor()
+    
+    info_query = f"""
+        SELECT title FROM images;
+    """
+
+    cur.execute(info_query)
+    all_apods = cur.fetchall()
+    con.close()
+    
+    return [title[0] for title in all_apods]
 
 if __name__ == '__main__':
     main()
