@@ -52,7 +52,7 @@ def handle_apod_sel(event):
     # Resizes image
     unsized_img = Image.open(img_path)
     new_size = image_lib.scale_image(image_size=(unsized_img.width, unsized_img.height))
-    resized_img = unsized_img.resize(new_size, Image.ANTIALIAS)
+    resized_img = unsized_img.resize(new_size)
     
     # Configure Widgets
     global img_apod
@@ -74,16 +74,16 @@ def handle_set_desktop():
     return
 
 def handle_download_Image():
-    date = dentry_dateselect.get_date()
+    date_entry = dentry_dateselect.get_date()
 
-    if date < date.fromisoformat("1995-06-16"):
+    if date_entry < date.fromisoformat("1995-06-16"):
         print("Error: APOD date cannot be before 1995-06-16.")
         return
-    elif date > date.today():
+    elif date_entry > date.today():
         print("Error: APOD date cannot be in the future.")
         return
 
-    apod_desktop.add_apod_to_cache(date)
+    apod_desktop.add_apod_to_cache(date_entry)
     
     box_imgselect.configure(values=apod_desktop.get_all_apod_titles())
 
@@ -103,6 +103,7 @@ root.rowconfigure(0, weight=1)
 root.rowconfigure(1, weight=1)
 root.rowconfigure(2, weight=1)
 root.columnconfigure(0, weight=1)
+
 
 # Set Icon
 app_id = 'APODViewer'
@@ -134,7 +135,7 @@ frm_bot_right.rowconfigure(0, weight=1)
 # Top
 img_apod = ImageTk.PhotoImage(file=os.path.join(script_dir, "NASA Logo Splash.png"))
 lbl_image = ttk.Label(frm_top, image=img_apod)
-lbl_image.grid(padx=10, pady=10)
+lbl_image.grid(padx=0, pady=0)
 
 # Mid
 lbl_desc = ttk.Label(frm_mid, text="")
