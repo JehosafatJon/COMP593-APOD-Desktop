@@ -93,6 +93,8 @@ def resize(event):
 
     # TODO: make resizable
 
+    lbl_desc.configure(wraplength=frm_mid.winfo_width())
+
     return
 
 
@@ -103,6 +105,7 @@ root.rowconfigure(0, weight=1)
 root.rowconfigure(1, weight=1)
 root.rowconfigure(2, weight=1)
 root.columnconfigure(0, weight=1)
+root.bind("<Configure>", resize)
 
 
 # Set Icon
@@ -115,7 +118,7 @@ frm_top = ttk.Frame(root)
 frm_top.grid(row=0, column=0, columnspan=3, padx=5, pady=5)
 
 frm_mid = ttk.Frame(root)
-frm_mid.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+frm_mid.grid(row=1, column=0, columnspan=3, padx=0, pady=0, sticky=NSEW)
 frm_mid.columnconfigure(0, weight=1)
 frm_mid.rowconfigure(0, weight=1)
 

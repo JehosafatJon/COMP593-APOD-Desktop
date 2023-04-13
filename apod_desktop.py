@@ -151,7 +151,7 @@ def init_apod_cache(parent_dir):
                 title TEXT NOT NULL,
                 explanation TEXT NOT NULL,
                 path TEXT NOT NULL,
-                hash TEXT NOT NULL,
+                hash TEXT NOT NULL
             );
         """
 
